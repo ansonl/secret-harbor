@@ -40,23 +40,23 @@ def api_root():
 def test():
     return render_template('upload_form.html', landing_page = 'process')
 
+filecount = 0
+
 @app.route('/process', methods = ['GET','POST'])
 def process():
     if request.method == 'POST':
         fileurl = request.values.get('url') or ''
         urlfilename = fileurl.split('/')[-1]
-        print(request.values)
-        print(fileurl)
-        print(urlfilename)
 
         hocr = request.values.get('hocr') or ''
         ext = '.hocr' if hocr else '.txt'
         if fileurl and allowed_file(urlfilename):
+            global filecount
             folder = os.path.join(app.config['TEMP_FOLDER'], str(os.getpid()))
             os.mkdir(folder)
-            input_file = os.path.join(folder, secure_filename(urlfilename))
+            input_file = os.path.join(folder, secure_filename(urlfilename+str(filecount)))
             output_file = os.path.join(folder, app.config['OCR_OUTPUT_FILE'])
-            urllib.urlretrieve(fileurl, urlfilename)
+            urllib.urlretrieve(fileurl, urlfilename+str(filecount))
             
             command = ['tesseract', input_file, output_file, '-l', request.form['lang'], hocr]
             proc = subprocess.Popen(command, stderr=subprocess.PIPE)
