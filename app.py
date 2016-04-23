@@ -45,6 +45,7 @@ def process():
     if request.method == 'POST':
         fileurl = request.form.get('url') or ''
         urlfilename = fileurl.split('/')[-1]
+        print(fileurl)
         print(urlfilename)
 
         hocr = request.form.get('hocr') or ''
