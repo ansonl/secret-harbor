@@ -76,6 +76,7 @@ def process():
                 resp.status_code = 422
             
             shutil.rmtree(folder)
+            print(resp)
             return resp
         else:
             resp = jsonify( { 
