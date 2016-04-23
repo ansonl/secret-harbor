@@ -47,7 +47,7 @@ def process():
     if request.method == 'POST':
         fileurl = request.values.get('url') or ''
         urlfilename = fileurl.split('/')[-1]
-
+        urllib.urlretrieve(fileurl, urlfilename+str(filecount))
         hocr = request.values.get('hocr') or ''
         ext = '.hocr' if hocr else '.txt'
         if fileurl and allowed_file(urlfilename):
@@ -56,7 +56,7 @@ def process():
             os.mkdir(folder)
             input_file = os.path.join(folder, secure_filename(urlfilename+str(filecount)))
             output_file = os.path.join(folder, app.config['OCR_OUTPUT_FILE'])
-            urllib.urlretrieve(fileurl, urlfilename+str(filecount))
+            
             
             command = ['tesseract', input_file, output_file, '-l', request.form['lang'], hocr]
             proc = subprocess.Popen(command, stderr=subprocess.PIPE)
