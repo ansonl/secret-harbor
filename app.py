@@ -55,6 +55,7 @@ def process():
             input_file = os.path.join(folder, secure_filename(urlfilename))
             output_file = os.path.join(folder, app.config['OCR_OUTPUT_FILE'])
             urllib.urlretrieve(fileurl, input_file)
+            print(input_file)
             
             command = ['tesseract', input_file, output_file, '-l', request.form['lang'], hocr]
             proc = subprocess.Popen(command, stderr=subprocess.PIPE)
