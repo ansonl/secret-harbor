@@ -3,7 +3,7 @@ import subprocess
 import sys
 import logging
 import shutil
-import urllib.request
+import urllib
 from flask import Flask, jsonify, render_template, request
 from werkzeug import secure_filename
 
@@ -53,7 +53,7 @@ def process():
             os.mkdir(folder)
             input_file = os.path.join(folder, secure_filename(urlfilename))
             output_file = os.path.join(folder, app.config['OCR_OUTPUT_FILE'])
-            urllib.request.urlretrieve(fileurl, urlfilename)
+            urllib.urlretrieve(fileurl, urlfilename)
             
             command = ['tesseract', input_file, output_file, '-l', request.form['lang'], hocr]
             proc = subprocess.Popen(command, stderr=subprocess.PIPE)
