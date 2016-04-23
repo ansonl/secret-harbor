@@ -43,12 +43,13 @@ def test():
 @app.route('/process', methods = ['GET','POST'])
 def process():
     if request.method == 'POST':
-        fileurl = request.form.get('url') or ''
+        fileurl = request.values.get('url') or ''
         urlfilename = fileurl.split('/')[-1]
+        print(request.values)
         print(fileurl)
         print(urlfilename)
 
-        hocr = request.form.get('hocr') or ''
+        hocr = request.values.get('hocr') or ''
         ext = '.hocr' if hocr else '.txt'
         if fileurl and allowed_file(urlfilename):
             folder = os.path.join(app.config['TEMP_FOLDER'], str(os.getpid()))
