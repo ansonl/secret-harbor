@@ -19,9 +19,7 @@ heroku buildpacks:add https://github.com/matteotiziano/heroku-buildpack-tesserac
 ## How to use
 Let us assume you have deployed this app in Heroku and you called it `your-heroku-app`.
 
-The app provides a test client `https://your-heroku-app.herokuapp.com/test` and a REST method `https://your-heroku-app.herokuapp.com/process`: the client provides the input file (image or PDF), whereas the REST method returns a JSON object containing the OCR of the input.
-
-This app is available at https://secret-harbor.herokuapp.com/test.
+The app provides a REST method `https://your-heroku-app.herokuapp.com/process`: the client provides the input url (text), whereas the REST method returns a JSON object containing the OCR of the input.
 
 ## Licence
-MIT Licence. Copyright (c) 2015 Matteo Maggioni
+MIT Licence. Anson Liu, using work of Matteo Maggioni

@@ -31,14 +31,10 @@ def not_found(error):
 def api_root():
     resp = jsonify( { 
         u'status': 200, 
-        u'message': u'Welcome to our secret APIs' 
+        u'message': u'TOP SECRET' 
     } )
     resp.status_code = 200
     return resp
-
-@app.route('/test', methods = ['GET'])
-def test():
-    return render_template('upload_form.html', landing_page = 'process')
 
 @app.route('/process', methods = ['GET','POST'])
 def process():
