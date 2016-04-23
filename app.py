@@ -3,6 +3,7 @@ import subprocess
 import sys
 import logging
 import shutil
+import urllib.request
 from flask import Flask, jsonify, render_template, request
 from werkzeug import secure_filename
 
@@ -42,15 +43,17 @@ def test():
 @app.route('/process', methods = ['GET','POST'])
 def process():
     if request.method == 'POST':
-        file = request.files['file']
+        fileurl = request.form.get('url') or ''
+        urlfilename = fileurl.split('/')[-1]
+        
         hocr = request.form.get('hocr') or ''
         ext = '.hocr' if hocr else '.txt'
-        if file and allowed_file(file.filename):
+        if fileurl and allowed_file(urlfilename):
             folder = os.path.join(app.config['TEMP_FOLDER'], str(os.getpid()))
             os.mkdir(folder)
-            input_file = os.path.join(folder, secure_filename(file.filename))
+            input_file = os.path.join(folder, secure_filename(urlfilename))
             output_file = os.path.join(folder, app.config['OCR_OUTPUT_FILE'])
-            file.save(input_file)
+            urllib.request.urlretrieve(fileurl, urlfilename)
             
             command = ['tesseract', input_file, output_file, '-l', request.form['lang'], hocr]
             proc = subprocess.Popen(command, stderr=subprocess.PIPE)
