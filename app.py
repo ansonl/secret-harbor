@@ -43,23 +43,18 @@ def test():
 @app.route('/process', methods = ['GET','POST'])
 def process():
     if request.method == 'POST':
-        fileurl = request.values.get('url') or ''
-        urlfilename = fileurl.split('/')[-1]
-
+        fileUrl = request.values.get('url') or ''
+        urlDownloadFilename = fileUrl.split('/')[-1]
         hocr = request.values.get('hocr') or ''
         ext = '.hocr' if hocr else '.txt'
-        if fileurl and allowed_file(urlfilename):
-            
+        if fileUrl and allowed_file(urlDownloadFilename):
             folder = os.path.join(app.config['TEMP_FOLDER'], str(os.getpid()))
             os.mkdir(folder)
-            input_file = os.path.join(folder, secure_filename(urlfilename))
+            input_file = os.path.join(folder, secure_filename(urlDownloadFilename))
             output_file = os.path.join(folder, app.config['OCR_OUTPUT_FILE'])
-            urllib.urlretrieve(fileurl, input_file)
-            print(input_file)
+            urllib.urlretrieve(fileUrl, input_file)
 
             requestedlanguage = request.values.get('lang') or 'eng'
-
-            
             command = ['tesseract', input_file, output_file, '-l', requestedlanguage, hocr]
             proc = subprocess.Popen(command, stderr=subprocess.PIPE)
             proc.wait()
@@ -80,7 +75,6 @@ def process():
                 resp.status_code = 422
             
             shutil.rmtree(folder)
-            print(resp)
             return resp
         else:
             resp = jsonify( { 
