@@ -4,10 +4,10 @@ import sys
 import logging
 import shutil
 import urllib
-import pillow
+import PIL
 from flask import Flask, jsonify, render_template, request
 from werkzeug import secure_filename
-from pillow import Image
+from PIL import Image
 
 app = Flask(__name__)
 app.logger.addHandler(logging.StreamHandler(sys.stdout))
