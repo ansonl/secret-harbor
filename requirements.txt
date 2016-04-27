@@ -1,4 +1,4 @@
 gunicorn==19.3.0
 Flask==0.10.1
 Werkzeug==0.10.4
--e git://github.com/errkk/gitpil#egg=PIL
+-e hg+https://bitbucket.org/etienned/pil-2009-raclette/#egg=PIL
