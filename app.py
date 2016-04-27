@@ -53,12 +53,12 @@ def process():
             urllib.urlretrieve(fileUrl, input_file)
 
             
-            img = Image.open(input_file)
-            basewidth = img.size[1] * 3
-            wpercent = (basewidth / float(img.size[0]))
-            hsize = int((float(img.size[1]) * float(wpercent)))
-            img = img.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
-            img.save(input_file)
+            #img = Image.open(input_file)
+            #basewidth = img.size[1] * 3
+            #wpercent = (basewidth / float(img.size[0]))
+            #hsize = int((float(img.size[1]) * float(wpercent)))
+            #img = img.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
+            #img.save(input_file)
 
             requestedlanguage = request.values.get('lang') or 'eng'
             command = ['tesseract', input_file, output_file, '-l', requestedlanguage, hocr]
