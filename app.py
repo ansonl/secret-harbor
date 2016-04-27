@@ -4,8 +4,10 @@ import sys
 import logging
 import shutil
 import urllib
+import PIL
 from flask import Flask, jsonify, render_template, request
 from werkzeug import secure_filename
+from PIL import Image
 
 app = Flask(__name__)
 app.logger.addHandler(logging.StreamHandler(sys.stdout))
@@ -49,6 +51,14 @@ def process():
             input_file = os.path.join(folder, secure_filename(urlDownloadFilename))
             output_file = os.path.join(folder, app.config['OCR_OUTPUT_FILE'])
             urllib.urlretrieve(fileUrl, input_file)
+
+            
+            img = Image.open(input_file)
+            basewidth = img.size[1] * 3
+            wpercent = (basewidth / float(img.size[0]))
+            hsize = int((float(img.size[1]) * float(wpercent)))
+            img = img.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
+            img.save(input_file)
 
             requestedlanguage = request.values.get('lang') or 'eng'
             command = ['tesseract', input_file, output_file, '-l', requestedlanguage, hocr]
