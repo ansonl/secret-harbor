@@ -45,7 +45,7 @@ def process():
         urlDownloadFilename = fileUrl.split('/')[-1]
         hocr = request.values.get('hocr') or ''
         ext = '.hocr' if hocr else '.txt'
-        if fileUrl and allowed_file(urlDownloadFilename):
+        if fileUrl:
             folder = os.path.join(app.config['TEMP_FOLDER'], str(os.getpid()))
             os.mkdir(folder)
             input_file = os.path.join(folder, secure_filename(urlDownloadFilename))
